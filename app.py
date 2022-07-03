@@ -24,7 +24,17 @@ def answer():
     for i in range(len(messages)):
         c = 'alert-warning ms-5' if i % 2 == 0 else 'alert-success me-5'
         m = messages[i]
+        import re
+        m = re.sub(r'&', r'&amp;', m)
+        m = re.sub(r'<', r'&lt;', m)
+        m = re.sub(r'>', r'&gt;', m)
+        # メッセージのフォーマット
+        m = re.sub(r'\*(.+)\*', r'<strong>\1</strong>', m)
+        m = re.sub(r'(\d{2,3})-\d+-\d+', r'\1-****-****', m)
+
         message_html += f'<div class="alert {c}" role="alert">{m}</div>\n'
+        # HTMLインジェクション対策
+        
 
     
 
@@ -34,3 +44,6 @@ def answer():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+ 
